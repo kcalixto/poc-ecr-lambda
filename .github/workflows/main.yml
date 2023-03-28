@@ -1,0 +1,24 @@
+name: 🤖 poc-ecr-lambda
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    name: 🔖 Create tag
+    runs-on: ubuntu-22.04
+
+  docker:
+    name: 🚚 Docker deploy
+    runs-on: ubuntu-22.04
+    needs: tag
+
+  build:
+    name: 📱 Test code
+    runs-on: ubuntu-22.04
+
+  code:
+    name: 📲 Deploy code
+    runs-on: ubuntu-22.04
+    needs: build
