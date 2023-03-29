@@ -1,11 +1,14 @@
-FROM ghcr.io/puppeteer/puppeteer:latest
+FROM shivjm/node-chromium:node18-chromium111-debian
 
-WORKDIR /app
+# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
+# ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-COPY package.json package.json
+WORKDIR /usr/src/app
 
-RUN npm install --save-dev
+COPY package.json package-lock.json ./
+
+RUN npm ci
 
 COPY . .
 
-CMD ["node", "index.js"]
+ENTRYPOINT ["node", "index.js"]

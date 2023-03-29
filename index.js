@@ -5,15 +5,25 @@ export const runner = async () => {
   const page = await buildPage(browser)
 
   try {
-    const selector = "input[name=q]"
-    await page.waitForSelector(selector)
-    await page.type(selector, "oiee")
+    await page.waitForSelector("input[name=q]")
+    await page.type("input[name=q]", "oiee")
+
+    await page.click(".gNO89b")
+
     await page.waitForNavigation()
 
   } catch (err) {
     console.log("ERROR: ", err)
   } finally {
     console.log("finished execution")
+
+    fetch("https://6jwumvrjo1.execute-api.sa-east-1.amazonaws.com/produce", {
+      method: 'POST',
+      body: JSON.stringify({ "message": "ran puppeteer successfully!" })
+    })
+    .then((resp) => resp.json())
+    .then((data) => console.log(data))
+
     await page.close()
     await browser.close()
   }
