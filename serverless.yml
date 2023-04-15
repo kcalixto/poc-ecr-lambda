@@ -4,11 +4,23 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs18.x
+  region: sa-east-1
+
+  ecr:
+    images:
+      pocImage:
+        path: ./
 
 functions:
   api:
-    handler: index.handler
-    events:
-      - httpApi:
-          path: /
-          method: get
+    image:
+      name: pocImage
+
+# functions:
+#   greeter:
+#     image:
+#       name: appimage
+#       command:
+#         - app.greeter
+#       entryPoint:
+#         - '/lambda-entrypoint.sh'

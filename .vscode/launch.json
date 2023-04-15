@@ -3,7 +3,7 @@
     "configurations": [{
         "type": "node",
         "request": "launch",
-        "name": "poc-ecr-lambda",
-        "preLaunchTask": "Run",
+        "name": "Launch Program",
+        "program": "${workspaceFolder}/index.js"
     }]
 }

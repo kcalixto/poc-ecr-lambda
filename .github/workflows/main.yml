@@ -5,20 +5,27 @@ on:
       - main
 
 jobs:
-  tag:
-    name: 🔖 Create tag
-    runs-on: ubuntu-22.04
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
 
-  docker:
-    name: 🚚 Docker deploy
-    runs-on: ubuntu-22.04
-    needs: tag
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
 
-  build:
-    name: 📱 Test code
-    runs-on: ubuntu-22.04
+    # Connect to AWS services
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: sa-east-1
 
-  code:
-    name: 📲 Deploy code
-    runs-on: ubuntu-22.04
-    needs: build
+    - name: Install Dependencies
+      run: |
+        npm i serverless -g
+        npm i --save-dev
+
+    - name: Serverless Deploy
+      run: serverless deploy --verbose

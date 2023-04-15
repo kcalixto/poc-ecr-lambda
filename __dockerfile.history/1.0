@@ -1,0 +1,10 @@
+FROM shivjm/node-chromium:node18-chromium111-debian
+
+ENV HEADLESS=true
+
+WORKDIR /usr/src/app
+
+COPY index.js package.json package-lock.json .vscode ./
+COPY node_modules ./node_modules
+
+ENTRYPOINT ["node", "index.js"]
