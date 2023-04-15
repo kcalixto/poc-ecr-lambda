@@ -20,16 +20,21 @@ export const runner = async () => {
     await page.type(inputFieldSelector, "oiee")
 
     console.log("typed successfully")
-    // await page.click(".gNO89b")
+    await page.click(".gNO89b")
 
-    // console.log("waiting for navigation...")
-    // await page.waitForNavigation()
+    console.log("waiting for navigation...")
+    await page.waitForNavigation()
 
   } catch (err) {
     console.log("ERROR: ", err)
   } finally {
-    console.log("finished execution")
-    await browser.close()
+    try {
+      await browser.close()
+    } catch (err) {
+      console.log(err)
+    } finally {
+      console.log("finished execution")
+    }
   }
 }
 
