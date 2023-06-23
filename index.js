@@ -2,15 +2,17 @@ import * as puppeteer from "puppeteer-core"
 import * as dotenv from 'dotenv'
 
 export const runner = async () => {
-  dotenv.config();
-  console.log("building puppet..")
-
-  const [browser, killbrowser] = await newBrowser()
-  const page = await buildPage(browser)
-
-  console.log("started")
-
+  let browser;
   try {
+
+    dotenv.config();
+    console.log("building puppet..")
+
+    browser = await newBrowser()
+    const page = await buildPage(browser)
+
+    console.log("started")
+
     const inputFieldSelector = "[name=q]"
     await page.waitForSelector(inputFieldSelector)
 
@@ -36,7 +38,7 @@ export const runner = async () => {
     }
   }
 }
-  
+
 async function buildPage(browser) {
   const url = "https://www.google.com"
 
@@ -53,7 +55,7 @@ async function buildPage(browser) {
 async function newBrowser() {
   const browser = await puppeteer.launch({
     executablePath: process.env.CHROMIUM_PATH ?? '/usr/bin/chromium',
-    headless: process.env.NODE_ENV !== 'local',
+    headless: true,
     timeout: 900000,
     args: [
       '--no-sandbox',
@@ -61,9 +63,9 @@ async function newBrowser() {
     ]
   })
 
-  const killback = () => browser.close()
-
-  return [browser, killback]
+  return browser
 }
 
-runner()
+if (process.env.NODE_ENV === "local") {
+  runner()
+}
