@@ -1,16 +1,14 @@
-FROM calixtodazs/c-pupe:latest
+FROM shivjm/node-chromium:node18-chromium114-debian
 
-# Set up the app directory
-WORKDIR /app
+ENV NODE_ENV = "production"
 
-# Copy the package.json and package-lock.json files
-COPY package.json package-lock.json node_modules ./
+WORKDIR /usr/src/app
 
-# Install app dependencies
+COPY package.json package-lock.json ./
+
 RUN npm install --save-dev
 
-# Copy build
 COPY index.js .
 
-# Start the app
-CMD [ "npm", "start" ]
+ENTRYPOINT ["node", "index.js"]
+# RUN sleep infinity
