@@ -1,6 +1,5 @@
-import * as puppeteer from "puppeteer"
+import * as puppeteer from "puppeteer-core"
 import * as dotenv from 'dotenv'
-import axios from "axios";
 
 export const runner = async () => {
   dotenv.config();
@@ -37,7 +36,7 @@ export const runner = async () => {
     }
   }
 }
-
+  
 async function buildPage(browser) {
   const url = "https://www.google.com"
 
@@ -53,7 +52,8 @@ async function buildPage(browser) {
 
 async function newBrowser() {
   const browser = await puppeteer.launch({
-    headless: true,
+    executablePath: process.env.CHROMIUM_PATH ?? '/usr/bin/chromium',
+    headless: process.env.NODE_ENV !== 'local',
     timeout: 900000,
     args: [
       '--no-sandbox',

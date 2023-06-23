@@ -4,6 +4,10 @@
         "type": "node",
         "request": "launch",
         "name": "Launch Program",
-        "program": "${workspaceFolder}/index.js"
+        "program": "${workspaceFolder}/index.js",
+        "env": {
+            "NODE_ENV": "local",
+            "CHROMIUM_PATH": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        }
     }]
 }
