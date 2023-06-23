@@ -1,10 +1,22 @@
 service: poc-ecr-lambda
 frameworkVersion: '3'
 
+custom:
+  NodeEnv:
+    dev: "development"
+    prd: "production"
+
 provider:
   name: aws
   runtime: nodejs18.x
   region: sa-east-1
+  timeout: 90
+  memorySize: 2048
+  logRetentionInDays: 14
+  stage: prd
+
+  environment:
+    NODE_ENV: ${self:custom.NodeEnv.${self:provider.stage}}
 
   ecr:
     images:
@@ -15,12 +27,3 @@ functions:
   api:
     image:
       name: pocImage
-
-# functions:
-#   greeter:
-#     image:
-#       name: appimage
-#       command:
-#         - app.greeter
-#       entryPoint:
-#         - '/lambda-entrypoint.sh'
