@@ -26,5 +26,5 @@ RUN npm install --save-dev
 
 COPY index.js .
 
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT ["node", "/usr/src/app/index.js"]
 # RUN sleep infinity
