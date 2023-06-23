@@ -66,6 +66,4 @@ async function newBrowser() {
   return browser
 }
 
-if (process.env.NODE_ENV === "local") {
-  runner()
-}
+runner()
