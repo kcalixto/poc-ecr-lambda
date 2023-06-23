@@ -1,9 +1,5 @@
-# Author(lines 3-20): @shivjm - Shiv Jha-Mathur
-
-ARG NODE_VERSION
-ARG DEBIAN_VERSION=bullseye
-
-FROM docker.io/library/node:${NODE_VERSION}-${DEBIAN_VERSION}
+# Author(lines 2-17): @shivjm - Shiv Jha-Mathur
+FROM docker.io/library/node:18-bullseye
 
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
