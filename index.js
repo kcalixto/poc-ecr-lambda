@@ -1,8 +1,12 @@
 import * as puppeteer from "puppeteer-core"
 import * as dotenv from 'dotenv'
 
+const END_EXECUTION = "should_end_execution"
+
 export const runner = async () => {
-  let browser;
+  let browser = {
+    close: async () => { console.log("closed without init") }
+  };
   try {
 
     dotenv.config();
@@ -32,7 +36,7 @@ export const runner = async () => {
     try {
       await browser.close()
     } catch (err) {
-      console.log(err)
+      console.log("finally error: ", err)
     } finally {
       console.log("finished execution")
     }
@@ -40,16 +44,27 @@ export const runner = async () => {
 }
 
 async function buildPage(browser) {
-  const url = "https://www.google.com"
+  try {
+    const url = "https://www.google.com"
 
-  const page = await browser.newPage()
-  page.goto(url)
-  page.setViewport({
-    width: 1280,
-    height: 720,
-  })
+    console.log("building page");
 
-  return page
+    const page = await browser.newPage()
+
+    console.log("page navigating");
+    page.goto(url)
+
+    page.setViewport({
+      width: 1280,
+      height: 720,
+    })
+
+    console.log("page built successfully");
+    return page
+  } catch (error) {
+    console.log("error building page: ", error)
+    throw END_EXECUTION
+  }
 }
 
 async function newBrowser() {
