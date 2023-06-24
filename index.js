@@ -68,17 +68,22 @@ async function buildPage(browser) {
 }
 
 async function newBrowser() {
-  const browser = await puppeteer.launch({
-    executablePath: process.env.CHROMIUM_PATH ?? '/usr/bin/chromium',
-    headless: true,
-    timeout: 900000,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox'
-    ]
-  })
+  try {
+    const browser = await puppeteer.launch({
+      executablePath: process.env.CHROMIUM_PATH ?? '/usr/bin/chromium',
+      headless: true,
+      timeout: 900000,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]
+    })
 
-  return browser
+    return browser
+  } catch (error) {
+    console.log(`error building browser: ${error.message}\n\n${error}`)
+    throw END_EXECUTION
+  }
 }
 
 runner()
